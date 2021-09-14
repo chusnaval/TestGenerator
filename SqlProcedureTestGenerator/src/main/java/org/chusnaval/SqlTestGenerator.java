@@ -12,7 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SqlTestGenerator {
 
@@ -36,7 +35,6 @@ public class SqlTestGenerator {
 
 
     public static MethodSpec getExecuteMethodSpec(String className, List<ParameterType> inputParamNames, List<ParameterType> outputParamNames, String functionName) throws GeneratorException {
-        List<MethodSpec> methods = new ArrayList<>();
         MethodSpec.Builder builder = MethodSpec.methodBuilder("testExecute")
                 .addModifiers(Modifier.PUBLIC)
                 .addException(Exception.class)
