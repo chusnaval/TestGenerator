@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="etg" />
         <module name="utils" />
+        <module name="SqlProcedureTestGenerator" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -16,6 +17,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SqlProcedureTestGenerator" options="-parameters" />
       <module name="TestGenerator" options="" />
       <module name="etg" options="-parameters" />
       <module name="etg (1)" options="-parameters" />

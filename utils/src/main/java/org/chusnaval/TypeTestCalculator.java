@@ -1,4 +1,4 @@
-package org.chusnaval.etg;
+package org.chusnaval;
 
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;

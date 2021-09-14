@@ -7,6 +7,7 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import org.chusnaval.FinderService;
+import org.chusnaval.TypeTestCalculator;
 import org.junit.Assert;
 
 import java.io.File;

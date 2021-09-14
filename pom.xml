@@ -18,6 +18,7 @@
     <modules>
         <module>entitiesTesterGenerator</module>
         <module>utils</module>
+        <module>SqlProcedureTestGenerator</module>
     </modules>
 
 
