@@ -1,0 +1,32 @@
+public class PlainOldJavaObjectTest {
+
+    @Test
+    public void testSetter_setsProperly() throws NoSuchFieldException, IllegalAccessException {
+        //given
+        final PlainOldJavaObject pojo = new PlainOldJavaObject();
+
+        //when
+        pojo.setValue("foo");
+
+        //then
+        final Field field = pojo.getClass().getDeclaredField("value");
+        field.setAccessible(true);
+        assertEquals("Fields didn't match", field.get(pojo), "foo");
+    }
+
+    @Test
+    public void testGetter_getsValue() throws NoSuchFieldException, IllegalAccessException {
+        //given
+        final PlainOldJavaObject pojo = new PlainOldJavaObject();
+        final Field field = pojo.getClass().getDeclaredField("value");
+        field.setAccessible(true);
+        field.set(pojo, "magic_values");
+
+        //when
+        final String result = pojo.getValue();
+
+        //then
+        assertEquals("field wasn't retrieved properly", result, "magic_values");
+    }
+
+}
