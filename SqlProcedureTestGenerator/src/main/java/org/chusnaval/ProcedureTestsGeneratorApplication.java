@@ -72,7 +72,7 @@ public class ProcedureTestsGeneratorApplication implements CommandLineRunner {
 				printHelp(options);
 			}
 
-		} catch (ParseException | IOException exp) {
+		} catch (ParseException | IOException | GeneratorException exp) {
 			log.error("Unexpected exception:" + exp.getMessage(), exp);
 		}
 	}

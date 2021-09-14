@@ -10,6 +10,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.chusnaval.FileFinder;
+import org.chusnaval.GeneratorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -78,7 +79,7 @@ public class EntitiesTestsGeneratorApplication implements CommandLineRunner {
 				printHelp(options);
 			}
 
-		} catch (ParseException | IOException exp) {
+		} catch (ParseException | IOException | GeneratorException exp) {
 			log.error("Unexpected exception:" + exp.getMessage(), exp);
 		}
 	}

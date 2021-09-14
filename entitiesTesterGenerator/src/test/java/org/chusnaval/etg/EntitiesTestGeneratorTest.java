@@ -29,58 +29,6 @@ class EntitiesTestGeneratorTest {
 
     private EntitiesTestGenerator generator;
 
-    @Test
-    void testFindAllFilesRecursive() throws IOException {
-        Mockery context = new Mockery();
-        String pathValue = "C:\\foo";
-        final FinderService fileFinder = context.mock(FinderService.class);
-        generator = new EntitiesTestGenerator(true, fileFinder);
-
-        context.checking(new Expectations() {{
-            oneOf(fileFinder).obtainClassesRecursivePath(Path.of(pathValue));
-        }});
-
-        generator.findAllFiles("dir", pathValue);
-
-        context.assertIsSatisfied();
-    }
-
-    @Test
-    void testFindAllFilesNoRecursiveInDir() throws IOException {
-        Mockery context = new Mockery();
-        String pathValue = "C:\\foo";
-        final FinderService fileFinder = context.mock(FinderService.class);
-        generator = new EntitiesTestGenerator(false, fileFinder);
-
-        context.checking(new Expectations() {{
-            oneOf(fileFinder).obtainClassesFromPath(Path.of(pathValue));
-        }});
-
-        generator.findAllFiles("dir", pathValue);
-
-        context.assertIsSatisfied();
-    }
-
-    @Test
-    void testFindAllFilesNoRecursiveInClass() throws IOException {
-        Mockery context = new Mockery();
-        String pathValue = "C:\\foo";
-        final FinderService fileFinder = context.mock(FinderService.class);
-        generator = new EntitiesTestGenerator(false, fileFinder);
-
-        context.checking(new Expectations() {{
-            oneOf(fileFinder).obtainClassFromPath(Path.of(pathValue));
-        }});
-
-        generator.findAllFiles("class", pathValue);
-
-        context.assertIsSatisfied();
-    }
-
-    @Test
-    void obtainClassName() {
-        Assertions.assertEquals("ComplePAcAplicacionesId", EntitiesTestGenerator.obtainClassName("org\\chusnaval\\main\\entity\\acceso\\param\\id\\ComplePAcAplicacionesId.java"));
-    }
 
     @Test
     void getMethodSpecsTest() {
@@ -110,27 +58,6 @@ class EntitiesTestGeneratorTest {
         assertThat(methods.get(1).toString(), equalTo(expectedGetterResult));
     }
 
-    @Test
-    void getRealOutputFolderWrongPathTest() {
-        Assertions.assertEquals(".", EntitiesTestGenerator.getRealOutputFolder(null));
-        Assertions.assertEquals(".", EntitiesTestGenerator.getRealOutputFolder(Path.of("")));
-        Assertions.assertEquals(".", EntitiesTestGenerator.getRealOutputFolder(Path.of("C:\\Foo\\")));
-    }
 
-
-    @Test
-    void getRealOutputFolderOkPathTest() throws IOException {
-
-        FileSystem fs = Jimfs.newFileSystem(Configuration.windows());
-        Path parentDir = fs.getPath("C:\\Foo");
-        Files.createDirectory(parentDir);
-        Assertions.assertEquals("C:\\Foo", EntitiesTestGenerator.getRealOutputFolder(parentDir));
-    }
-
-    @Test
-    void getRealOutputPackageTest() {
-        Assertions.assertEquals("ttec.comple.entity.acceso", EntitiesTestGenerator.getRealOutputPackage("F:\\testGen\\src\\ttec\\comple\\entity\\acceso\\CompleDAcAudInformes.java", null));
-        Assertions.assertEquals("ttec.comple.entity.acceso.modified", EntitiesTestGenerator.getRealOutputPackage("F:\\testGen\\src\\ttec\\comple\\entity\\acceso\\CompleDAcAudInformes.java", "ttec.comple.entity.acceso.modified"));
-    }
 }
 

@@ -7,6 +7,8 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import org.chusnaval.FinderService;
+import org.chusnaval.GeneratorException;
+import org.chusnaval.TestGenerator;
 import org.chusnaval.TypeTestCalculator;
 import org.junit.Assert;
 
@@ -21,15 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EntitiesTestGenerator {
-
-    private final boolean recursiveMode;
-
-    private final FinderService fileFinder;
-
-    private static final String CLASS_FILE = "class";
-
-    private static final String DIRECTORY = "dir";
+public class EntitiesTestGenerator extends TestGenerator {
 
     /**
      * Default constructor
@@ -37,8 +31,7 @@ public class EntitiesTestGenerator {
      * @param recursiveMode Establish the recursive mode
      */
     public EntitiesTestGenerator(boolean recursiveMode, FinderService finder) {
-        this.recursiveMode = recursiveMode;
-        this.fileFinder = finder;
+        super(recursiveMode, finder);
     }
 
     /**
@@ -50,13 +43,15 @@ public class EntitiesTestGenerator {
      * @param outputPackage package to write in test
      * @throws IOException exception where the route not exists or is not accessible
      */
-    public void generateTestFiles(String mainOption, String path, String outputFolder, String outputPackage) throws IOException {
+    @Override
+    public void generateTestFiles(String mainOption, String path, String outputFolder, String outputPackage) throws IOException, GeneratorException {
 
         for (String classFile : findAllFiles(mainOption, path)) {
             Map<String, String> propertiesNames = extractProperties(classFile);
             generateTestFile(classFile, propertiesNames, outputFolder, outputPackage);
         }
     }
+
 
     /**
      * Extract all properties from a class file
@@ -75,7 +70,7 @@ public class EntitiesTestGenerator {
         return propertiesNames;
     }
 
-    private void generateTestFile(String classFile, Map<String, String> propertiesNames, String outputFolder,
+    protected void generateTestFile(String classFile, Map<String, String> propertiesNames, String outputFolder,
                                   String outputPackage) throws IOException {
 
         String className = obtainClassName(classFile);
@@ -103,47 +98,6 @@ public class EntitiesTestGenerator {
 
     }
 
-    /**
-     * Get the real output folder, if is empty or null we use app folder as destination
-     *
-     * @param outputFolder output folder indicated from user
-     * @return real output folder
-     */
-    protected static String getRealOutputFolder(Path outputFolder) {
-        String destinationDir = ".";
-        if (outputFolder != null && !outputFolder.toString().isEmpty() && Files.isDirectory(outputFolder)) {
-            destinationDir = outputFolder.toString();
-        }
-        return destinationDir;
-    }
-
-    /**
-     * Obtain the class name from a Java File
-     *
-     * @param inputFile input java file
-     * @return class name
-     */
-    protected static String obtainClassName(String inputFile) {
-        return inputFile.substring(inputFile.lastIndexOf('\\') + 1, inputFile.indexOf("."));
-    }
-
-    /**
-     * Gets the real output package
-     *
-     * @param classFile     class path file
-     * @param outputPackage output package to write tests
-     * @return the real output package
-     */
-    protected static String getRealOutputPackage(String classFile, String outputPackage) {
-        int displacement = 4;
-        String realOutputPackage = classFile.contains("src")
-                ? classFile.substring(classFile.indexOf("src") + displacement, classFile.lastIndexOf('\\')).replace('\\', '.')
-                : "";
-        if (outputPackage != null && !outputPackage.isEmpty()) {
-            realOutputPackage = outputPackage;
-        }
-        return realOutputPackage;
-    }
 
     /**
      * Create the getter and setter method spec from a map of properties
@@ -167,28 +121,7 @@ public class EntitiesTestGenerator {
         return methods;
     }
 
-    /**
-     * Obtain all files from a path
-     *
-     * @param value     establish if we find in a dir or a single class
-     * @param pathValue the path where are the files
-     * @return list of all files
-     * @throws IOException error if path not exists or is not accessible
-     */
-    protected List<String> findAllFiles(String value, String pathValue) throws IOException {
-        List<String> files = null;
 
-        if (recursiveMode) {
-            files = fileFinder.obtainClassesRecursivePath(Path.of(pathValue));
-        } else {
-            if (value.equals(DIRECTORY)) {
-                files = fileFinder.obtainClassesFromPath(Path.of(pathValue));
-            } else if (value.equals(CLASS_FILE)) {
-                files = fileFinder.obtainClassFromPath(Path.of(pathValue));
-            }
-        }
-        return files;
-    }
 
 
 }
