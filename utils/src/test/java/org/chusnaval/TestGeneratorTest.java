@@ -46,7 +46,7 @@ class TestGeneratorTest {
         final FinderService fileFinder = context.mock(FinderService.class);
         generator = new TestGenerator(true, fileFinder) {
             @Override
-            public void generateTestFiles(String mainOption, String path, String outputFolder, String outputPackage) throws IOException, GeneratorException {
+            public void generateTestFiles(String mainOption, String path, String outputFolder, String outputPackage) {
 
             }
         };
@@ -67,7 +67,7 @@ class TestGeneratorTest {
         final FinderService fileFinder = context.mock(FinderService.class);
         generator = new TestGenerator(false, fileFinder) {
             @Override
-            public void generateTestFiles(String mainOption, String path, String outputFolder, String outputPackage) throws IOException, GeneratorException {
+            public void generateTestFiles(String mainOption, String path, String outputFolder, String outputPackage)  {
 
             }
         };
@@ -88,7 +88,7 @@ class TestGeneratorTest {
         final FinderService fileFinder = context.mock(FinderService.class);
         generator = new TestGenerator(false, fileFinder) {
             @Override
-            public void generateTestFiles(String mainOption, String path, String outputFolder, String outputPackage) throws IOException, GeneratorException {
+            public void generateTestFiles(String mainOption, String path, String outputFolder, String outputPackage)  {
 
             }
         };
