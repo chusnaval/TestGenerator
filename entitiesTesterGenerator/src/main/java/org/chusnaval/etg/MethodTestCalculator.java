@@ -47,7 +47,7 @@ public class MethodTestCalculator {
      * @param className    Class name to be tested
      * @param propertyName property name that has a getter to test
      * @param valueByType  value to test the getter
-     * @param type
+     * @param type type to cast the getter to prevent ambiguous equals call
      * @return MethodSpec with a test for the getter
      */
     public static MethodSpec obtainGetter(String className, String propertyName, Object valueByType, String type) {

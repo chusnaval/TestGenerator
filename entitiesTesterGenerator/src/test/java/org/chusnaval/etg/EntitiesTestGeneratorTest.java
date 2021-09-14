@@ -1,33 +1,19 @@
 package org.chusnaval.etg;
 
-import com.google.common.jimfs.Configuration;
-import com.google.common.jimfs.Jimfs;
 import com.squareup.javapoet.MethodSpec;
-import org.chusnaval.FileFinder;
-import org.chusnaval.FinderService;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
 
 
 class EntitiesTestGeneratorTest {
-
-
-    private EntitiesTestGenerator generator;
 
 
     @Test
