@@ -19,14 +19,21 @@ class SqlTestGeneratorTest {
 
     private List<ParameterType> inputParamNames;
     private List<ParameterType> outputParamNames;
+    private List<ParameterType> procedureParamNames;
 
     @BeforeEach
     public void init(){
         outputParamNames = new ArrayList<>();
         outputParamNames.add(new ParameterType("1", "VARCHAR"));
 
+        procedureParamNames = new ArrayList<>();
+        procedureParamNames.add(new ParameterType("p_campana", "NUMERIC"));
+        procedureParamNames.add(new ParameterType("p_dpe_docident", "String"));
+        procedureParamNames.add(new ParameterType("p_dpe_cdnumexp", "String"));
+        procedureParamNames.add(new ParameterType("p_ambito", "String"));
+
         inputParamNames = new ArrayList<>();
-        inputParamNames.add(new ParameterType("2015", "NUMERIC"));
+        inputParamNames.add(new ParameterType("2015", "String"));
         inputParamNames.add(new ParameterType("52552291M", "String"));
         inputParamNames.add(new ParameterType("6000200", "String"));
         inputParamNames.add(new ParameterType("01010000001000000700000000032300", "String"));
@@ -37,7 +44,7 @@ class SqlTestGeneratorTest {
 
         // TODO comprobar que es una funcion o un procedure
         // TODO comprobar que parametros tiene y de que tipo
-        MethodSpec method = SqlTestGenerator.getExecuteMethodSpec("AccAmbitosGst", inputParamNames, outputParamNames, "{? = call COMPLE_K_DATSGA.COMPLE_F_CHK_AMBITO(?, ?, ?, ?)}");
+        MethodSpec method = SqlTestGenerator.getExecuteMethodSpec("AccAmbitosGst", inputParamNames, outputParamNames, procedureParamNames, "{? = call COMPLE_K_DATSGA.COMPLE_F_CHK_AMBITO(?, ?, ?, ?)}");
         String expectedSetterResult = "@org.junit.Test\n" +
                 "public void testExecute() throws java.lang.Exception {\n  " +
                 "given(callableStatement.execute()).willReturn(false);\n  " +
@@ -71,7 +78,7 @@ class SqlTestGeneratorTest {
     @Test
     void calculateNumericParameterTest(){
 
-        assertThat(SqlTestGenerator.calculateNumericParameter(2, "2015"), equalTo("verify(callableStatement).setObject(2, \"2015\", Types.NUMERIC)"));
+        assertThat(SqlTestGenerator.calculateNumericParameter(2, "2015", "NUMERIC"), equalTo("verify(callableStatement).setObject(2, \"2015\", Types.NUMERIC)"));
     }
 
     @Test
